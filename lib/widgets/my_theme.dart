@@ -8,10 +8,10 @@ class MyTheme {
           color: Colors.white,
           titleTextStyle: TextStyle(
               color: MyTheme.darkBluishColor,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.bold,
               fontSize: 30,
               fontFamily: GoogleFonts.lato().fontFamily,
-              letterSpacing: 3),
+              letterSpacing: 4),
           iconTheme: IconThemeData(color: MyTheme.darkBluishColor),
           centerTitle: true,
         ),

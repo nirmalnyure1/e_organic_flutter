@@ -73,8 +73,10 @@ class _SignInFormState extends State<SignInForm> {
 
   void validate() {
     if (formKey.currentState!.validate()) {
+      // ignore: avoid_print
       print('validate');
     } else {
+      // ignore: avoid_print
       print('invalidate');
     }
   }
@@ -91,7 +93,7 @@ class _SignInFormState extends State<SignInForm> {
           const SizedBox(height: 20.0),
           Center(
             child: Text(
-              'Welcome to SignIn Page ',
+              'LogIn with your account ',
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 30,
@@ -130,7 +132,7 @@ class _SignInFormState extends State<SignInForm> {
                     )),
                 const SizedBox(height: 20.0),
                 textformField(
-                  hint: 'enter your passwor',
+                  hint: 'enter your password',
                   lable: 'password',
                   // err: 'pssword cannot be empty',
                   icon: Icon(
