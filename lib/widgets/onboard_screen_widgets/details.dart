@@ -9,6 +9,7 @@ class Details extends StatelessWidget {
 
   const Details({Key? key, this.texttitle, this.image}) : super(key: key);
 
+  @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -29,7 +30,7 @@ class Details extends StatelessWidget {
               color: MyTheme.darkBluishColor,
               fontSize: 15.0),
         ),
-        SizedBox(height: 80),
+        const SizedBox(height: 80),
         SvgPicture.asset(
           image!,
           width: 240,

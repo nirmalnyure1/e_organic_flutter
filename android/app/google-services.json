@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1088825009575",
+    "project_id": "eorganic-e401d",
+    "storage_bucket": "eorganic-e401d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1088825009575:android:9f6bc82c99e4e083f84282",
+        "android_client_info": {
+          "package_name": "com.example.eorganic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1088825009575-asu97633kka4s8bdkijoc8cs66havhjs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.eorganic",
+            "certificate_hash": "43fe5b6eacfc79d91c45367aad6aff60b7df00a9"
+          }
+        },
+        {
+          "client_id": "1088825009575-2kp8nro7fpp7nbu244qg8u5qn7kbeqih.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwAtoGpr0Tqd5aIiik4UZJ-IVHGpeQnEo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1088825009575-2kp8nro7fpp7nbu244qg8u5qn7kbeqih.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
