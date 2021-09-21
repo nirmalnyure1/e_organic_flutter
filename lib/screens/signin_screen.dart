@@ -1,6 +1,8 @@
+import 'package:eorganic/routes/my_routes.dart';
 import 'package:eorganic/widgets/my_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -18,8 +20,13 @@ class _SignInScreenState extends State<SignInScreen> {
           appBar: AppBar(
             title: const Text('Sign In'),
           ),
-          body: const SingleChildScrollView(
-            child: SignInForm(),
+          body: GestureDetector(
+            onTap: () {
+              FocusScope.of(context).requestFocus(FocusNode());
+            },
+            child: const SingleChildScrollView(
+              child: SignInForm(),
+            ),
           ),
           bottomSheet: Padding(
             padding: const EdgeInsets.all(20.0),
@@ -36,7 +43,9 @@ class _SignInScreenState extends State<SignInScreen> {
                   width: 10.0,
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, MyRoutes.signupScreenRoute);
+                  },
                   child: Text(
                     'Sign Up',
                     style: TextStyle(fontSize: 20, color: MyTheme.green),
@@ -51,13 +60,31 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 }
 
-class SignInForm extends StatelessWidget {
+class SignInForm extends StatefulWidget {
   const SignInForm({Key? key}) : super(key: key);
+
+  @override
+  State<SignInForm> createState() => _SignInFormState();
+}
+
+class _SignInFormState extends State<SignInForm> {
+  bool? checkboxvalue = false;
+  final formKey = GlobalKey<FormState>();
+
+  void validate() {
+    if (formKey.currentState!.validate()) {
+      print('validate');
+    } else {
+      print('invalidate');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Form(
         child: Form(
+      key: formKey,
+      autovalidate: true,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -96,6 +123,7 @@ class SignInForm extends StatelessWidget {
                     hint: 'enter you email',
                     lable: 'email',
                     obsecureText: false,
+                    //  err: 'email can not be empity',
                     icon: Icon(
                       Icons.account_box_rounded,
                       color: MyTheme.green,
@@ -104,12 +132,36 @@ class SignInForm extends StatelessWidget {
                 textformField(
                   hint: 'enter your passwor',
                   lable: 'password',
+                  // err: 'pssword cannot be empty',
                   icon: Icon(
                     Icons.password_rounded,
                     color: MyTheme.green,
                   ),
                 ),
                 const SizedBox(height: 20.0),
+
+                Row(
+                  children: [
+                    Checkbox(
+                      activeColor: Colors.green,
+                      value: checkboxvalue,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          checkboxvalue = value;
+                        });
+                      },
+                    ),
+                    Text(
+                      'rememver me',
+                      style: TextStyle(color: MyTheme.textColor),
+                    ),
+                    const SizedBox(width: 120.0),
+                    Text(
+                      'forget password?',
+                      style: TextStyle(color: MyTheme.green),
+                    )
+                  ],
+                ),
                 signin(),
                 const SizedBox(height: 20.0),
                 Text(
@@ -117,7 +169,7 @@ class SignInForm extends StatelessWidget {
                   style: TextStyle(
                       //fontWeight: FontWeight.w100,
                       fontSize: 17,
-                      color: MyTheme.green),
+                      color: MyTheme.textColor),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -135,7 +187,8 @@ class SignInForm extends StatelessWidget {
                         child:
                             SvgPicture.asset('assets/image/google-icon.svg')),
                   ],
-                )
+                ),
+                // const SizedBox(height: 20.0),
               ],
             ),
           ),
@@ -144,8 +197,13 @@ class SignInForm extends StatelessWidget {
     ));
   }
 
-  TextFormField textformField(
-      {String? lable, String? hint, Icon? icon, bool obsecureText = true}) {
+  TextFormField textformField({
+    String? lable,
+    String? hint,
+    Icon? icon,
+    bool obsecureText = true,
+    //String err = 'error',
+  }) {
     return TextFormField(
       maxLines: 1,
       maxLength: 40,
@@ -174,20 +232,23 @@ class SignInForm extends StatelessWidget {
         ),
         prefixIcon: icon,
       ),
+      validator: obsecureText ? passwrodValidator() : emailValidator(),
     );
   }
 
   Container signin() {
     return Container(
       //padding: EdgeInsets.symmetric(horizontal: 10.0),
-      width: 200,
+      width: 400,
       height: 60.0,
       decoration: BoxDecoration(
         color: Colors.green,
         borderRadius: BorderRadius.circular(20.0),
       ),
       child: TextButton(
-        onPressed: () {},
+        onPressed: () {
+          validate();
+        },
         child: const Text(
           'Sign In',
           style: TextStyle(
@@ -195,5 +256,21 @@ class SignInForm extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  MultiValidator emailValidator() {
+    return MultiValidator([
+      RequiredValidator(errorText: 'required'),
+      EmailValidator(errorText: 'not valid'),
+    ]);
+  }
+
+  MultiValidator passwrodValidator() {
+    return MultiValidator([
+      RequiredValidator(errorText: 'required'),
+      MinLengthValidator(6, errorText: 'pssword should be greater then 6'),
+      MaxLengthValidator(15, errorText: "password should be less then 15"),
+      // PasswordCredential(data_OR_form)
+    ]);
   }
 }

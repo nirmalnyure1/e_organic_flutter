@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:eorganic/routes/my_routes.dart';
 import 'package:eorganic/screens/onboard_screen.dart';
+import 'package:eorganic/screens/sign_up_screen.dart';
 import 'package:eorganic/screens/signin_screen.dart';
 import 'package:eorganic/widgets/my_theme.dart';
 import 'package:flutter/material.dart';
@@ -25,10 +26,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       // initialRoute: '/splash',
       routes: {
-        "/": (context) => SplashScreen(),
+        "/": (context) => SignInScreen(),
         MyRoutes.splashScreenRoute: (context) => SplashScreen(),
         MyRoutes.onboardingScreenRoute: (context) => OnBoardScreen(),
-        MyRoutes.signinScreenRoute: (context) => SignInScreen()
+        MyRoutes.signinScreenRoute: (context) => SignInScreen(),
+        MyRoutes.signupScreenRoute: (context) => SignUpScreen(),
       },
     );
   }
