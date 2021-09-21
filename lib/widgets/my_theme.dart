@@ -1,0 +1,47 @@
+
+
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+class MyTheme {
+  static ThemeData lightTheme(BuildContext context) => ThemeData(
+        appBarTheme: AppBarTheme(
+          elevation: 0.0,
+          color: Colors.white,
+          titleTextStyle: TextStyle(
+              color: MyTheme.darkBluishColor,
+              fontWeight: FontWeight.w500,
+              fontSize: 30,
+              fontFamily: GoogleFonts.lato().fontFamily,
+              letterSpacing: 3),
+          iconTheme: IconThemeData(color: MyTheme.darkBluishColor),
+          centerTitle: true,
+        ),
+        primaryColor: Colors.green,
+        fontFamily: GoogleFonts.lato().fontFamily,
+        //fontFamily: GoogleFonts.poppins().fontFamily,
+        primaryTextTheme: GoogleFonts.latoTextTheme(),
+      );
+
+  static ThemeData darkTheme(BuildContext context) => ThemeData(
+        brightness: Brightness.dark,
+        fontFamily: GoogleFonts.lato().fontFamily,
+        primaryTextTheme: GoogleFonts.latoTextTheme(),
+        cardColor: Colors.black,
+        canvasColor: dark,
+        appBarTheme: AppBarTheme(
+          color: Colors.black,
+          iconTheme: IconThemeData(color: Colors.white),
+          elevation: 0.0,
+        ),
+      );
+//Colors
+  static Color creamColor = Colors.grey.shade100;
+  static Color dark = Colors.grey;
+
+  static Color darkBluishColor = Color(0xff403b58);
+  static Color lightBluishColor = Colors.blue.shade400;
+  static Color mainColor = Color(0x00FF00);
+  static Color green = Colors.green;
+  static Color textColor = Colors.black;
+}
