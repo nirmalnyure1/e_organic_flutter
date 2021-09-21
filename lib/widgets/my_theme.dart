@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -29,7 +27,7 @@ class MyTheme {
         primaryTextTheme: GoogleFonts.latoTextTheme(),
         cardColor: Colors.black,
         canvasColor: dark,
-        appBarTheme: AppBarTheme(
+        appBarTheme: const AppBarTheme(
           color: Colors.black,
           iconTheme: IconThemeData(color: Colors.white),
           elevation: 0.0,
@@ -41,7 +39,8 @@ class MyTheme {
 
   static Color darkBluishColor = Color(0xff403b58);
   static Color lightBluishColor = Colors.blue.shade400;
-  static Color mainColor = Color(0x00FF00);
+  static Color mainColor = const Color(0x0000ff00);
   static Color green = Colors.green;
-  static Color textColor = Colors.black;
+  static Color textColor = Colors.black45;
+  static Color textColorgrey = Colors.grey;
 }

@@ -1,5 +1,6 @@
 import 'package:eorganic/widgets/my_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -17,7 +18,33 @@ class _SignInScreenState extends State<SignInScreen> {
           appBar: AppBar(
             title: const Text('Sign In'),
           ),
-          body: const SingleChildScrollView(child: SignInForm()),
+          body: const SingleChildScrollView(
+            child: SignInForm(),
+          ),
+          bottomSheet: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+
+              // ignore: prefer_const_literals_to_create_immutables
+              children: [
+                Text(
+                  'Dont have account',
+                  style: TextStyle(fontSize: 20, color: MyTheme.textColor),
+                ),
+                const SizedBox(
+                  width: 10.0,
+                ),
+                InkWell(
+                  onTap: () {},
+                  child: Text(
+                    'Sign Up',
+                    style: TextStyle(fontSize: 20, color: MyTheme.green),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -54,7 +81,7 @@ class SignInForm extends StatelessWidget {
             style: TextStyle(
                 fontWeight: FontWeight.w100,
                 fontSize: 17,
-                color: MyTheme.darkBluishColor),
+                color: MyTheme.textColor),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
@@ -62,6 +89,8 @@ class SignInForm extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
             child: Column(
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              //mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 textformField(
                     hint: 'enter you email',
@@ -76,16 +105,37 @@ class SignInForm extends StatelessWidget {
                   hint: 'enter your passwor',
                   lable: 'password',
                   icon: Icon(
-                    Icons.account_box_rounded,
+                    Icons.password_rounded,
                     color: MyTheme.green,
                   ),
                 ),
                 const SizedBox(height: 20.0),
                 signin(),
                 const SizedBox(height: 20.0),
+                Text(
+                  'or continue with',
+                  style: TextStyle(
+                      //fontWeight: FontWeight.w100,
+                      fontSize: 17,
+                      color: MyTheme.green),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 20.0),
                 Row(
-                    // children: [SvgPicture.asset('assets/image/facebook.svg')],
-                    )
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    InkWell(
+                        child: SvgPicture.asset('assets/image/facebook.svg')),
+                    const SizedBox(width: 30),
+                    InkWell(
+                        child: SvgPicture.asset('assets/image/twitter.svg')),
+                    const SizedBox(width: 30),
+                    InkWell(
+                        child:
+                            SvgPicture.asset('assets/image/google-icon.svg')),
+                  ],
+                )
               ],
             ),
           ),
@@ -103,6 +153,7 @@ class SignInForm extends StatelessWidget {
       decoration: InputDecoration(
         labelText: lable,
         labelStyle: TextStyle(color: MyTheme.green),
+        hintStyle: TextStyle(color: MyTheme.textColor),
         floatingLabelBehavior: FloatingLabelBehavior.always,
         hintText: hint,
         fillColor: Colors.red,
@@ -117,7 +168,7 @@ class SignInForm extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20.0),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: Colors.green,
           ),
         ),
