@@ -37,7 +37,7 @@ class MyTheme {
   static Color creamColor = Colors.grey.shade100;
   static Color dark = Colors.grey;
 
-  static Color darkBluishColor = Color(0xff403b58);
+  static Color darkBluishColor = const Color(0xff403b58);
   static Color lightBluishColor = Colors.blue.shade400;
   static Color mainColor = const Color(0x0000ff00);
   static Color green = Colors.green;

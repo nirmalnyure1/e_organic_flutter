@@ -1,6 +1,9 @@
+import 'package:eorganic/routes/my_routes.dart';
+import 'package:eorganic/services/auth_service.dart';
 import 'package:eorganic/widgets/my_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:provider/provider.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -19,13 +22,34 @@ class SignUpScreen extends StatelessWidget {
               // crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  'Sigin up with you detail ',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: MyTheme.textColor,
-                  ),
+                Row(
+                  children: [
+                    Text(
+                      'Already have a account ?',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: MyTheme.textColor,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10.0,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushReplacementNamed(
+                            context, MyRoutes.signinScreenRoute);
+                      },
+                      child: Text(
+                        'SignIn',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: MyTheme.green,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -56,26 +80,29 @@ class SignUpForm extends StatefulWidget {
 class _SignUpFormState extends State<SignUpForm> {
   final formKey = GlobalKey<FormState>();
   final TextEditingController _pass = TextEditingController();
-  final TextEditingController _confirmPass = TextEditingController();
+  final TextEditingController _email = TextEditingController();
 
-  validate() {
+  bool? validate() {
     if (formKey.currentState!.validate()) {
       // ignore: avoid_print
+      return true;
       print('validate');
     } else {
+      return false;
       // ignore: avoid_print
       print('invalidate');
     }
-    if (_pass.text != _confirmPass.text) {
-      return 'password not match';
-    }
+    // if (_pass.text != _confirmPass.text) {
+    //   return 'password not match';
+    // }
   }
 
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthenticationService>(context);
     return Form(
       key: formKey,
-      autovalidate: true,
+      autovalidateMode: AutovalidateMode.always,
       child: Column(
         children: [
           Center(
@@ -110,6 +137,7 @@ class _SignUpFormState extends State<SignUpForm> {
                   hint: 'enter your email',
                   lable: 'email',
                   obsecureText: false,
+                  controller: _email,
                   // err: 'pssword cannot be empty',
                   icon: Icon(
                     Icons.account_box_rounded,
@@ -128,7 +156,6 @@ class _SignUpFormState extends State<SignUpForm> {
                   ),
                 ),
                 const SizedBox(height: 80.0),
-               
                 Container(
                   //padding: EdgeInsets.symmetric(horizontal: 10.0),
                   width: 400,
@@ -138,8 +165,13 @@ class _SignUpFormState extends State<SignUpForm> {
                     borderRadius: BorderRadius.circular(20.0),
                   ),
                   child: TextButton(
-                    onPressed: () {
-                      validate();
+                    onPressed: () async {
+                      if (validate()!) {
+                        await authService.createUserWithEmailAndPassword(
+                            _email.text, _pass.text);
+                        Navigator.pushReplacementNamed(
+                            context, MyRoutes.signinScreenRoute);
+                      }
                     },
                     child: const Text(
                       'Sign Up',

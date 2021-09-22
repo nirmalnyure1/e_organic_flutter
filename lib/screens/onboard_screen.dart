@@ -1,4 +1,3 @@
-
 import 'package:eorganic/screens/signin_screen.dart';
 import 'package:eorganic/widgets/my_theme.dart';
 import 'package:eorganic/widgets/onboard_screen_widgets/details.dart';
@@ -70,7 +69,7 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
                         (index) => onPageChange(index: index),
                       ),
                     ),
-                    SizedBox(height: 200),
+                    const SizedBox(height: 180),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30),
                       child: continueButton(index: currentPage),
@@ -87,14 +86,14 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
 
   AnimatedContainer onPageChange({required int index}) {
     return AnimatedContainer(
-      margin: EdgeInsets.only(left: 10),
+      margin: const EdgeInsets.only(left: 10),
       height: 8,
       width: currentPage == index ? 30 : 8,
       decoration: BoxDecoration(
         color: currentPage == index ? MyTheme.green : Colors.grey,
         borderRadius: BorderRadius.circular(10),
       ),
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 500),
     );
   }
 
@@ -110,17 +109,17 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
           setState(() {
             currentPage != 2
                 ? pageController.nextPage(
-                    duration: Duration(milliseconds: 500),
+                    duration: const Duration(milliseconds: 500),
                     curve: Curves.easeInSine)
                 : Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) {
-                      return SignInScreen();
+                      return const SignInScreen();
                     }),
                   );
           });
         },
-        child: Text(
+        child: const Text(
           'continue',
           style: TextStyle(
               color: Colors.white, fontSize: 24.0, fontWeight: FontWeight.w300),
@@ -128,4 +127,7 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
       ),
     );
   }
+
+
+  
 }

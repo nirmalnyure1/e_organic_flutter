@@ -3,14 +3,21 @@
 import 'dart:async';
 
 import 'package:eorganic/routes/my_routes.dart';
+import 'package:eorganic/screens/home_screen.dart';
 import 'package:eorganic/screens/onboard_screen.dart';
 import 'package:eorganic/screens/sign_up_screen.dart';
+import 'package:eorganic/screens/signin_cheker.dart';
 import 'package:eorganic/screens/signin_screen.dart';
+import 'package:eorganic/services/auth_service.dart';
 import 'package:eorganic/widgets/my_theme.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -19,19 +26,26 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      //home: SplashScreen(),
-      theme: MyTheme.lightTheme(context),
+    return MultiProvider(
+      providers: [
+        Provider<AuthenticationService>(
+            create: (context) => AuthenticationService()),
+      ],
+      child: MaterialApp(
+        //home: SplashScreen(),
+        theme: MyTheme.lightTheme(context),
 
-      debugShowCheckedModeBanner: false,
-      // initialRoute: '/splash',
-      routes: {
-        "/": (context) => SignInScreen(),
-        MyRoutes.splashScreenRoute: (context) => SplashScreen(),
-        MyRoutes.onboardingScreenRoute: (context) => OnBoardScreen(),
-        MyRoutes.signinScreenRoute: (context) => SignInScreen(),
-        MyRoutes.signupScreenRoute: (context) => SignUpScreen(),
-      },
+        debugShowCheckedModeBanner: false,
+        //initialRoute: '/signin',
+        routes: {
+           "/": (context) => SignInChecker(),
+          MyRoutes.splashScreenRoute: (context) => SplashScreen(),
+          MyRoutes.onboardingScreenRoute: (context) => OnBoardScreen(),
+          MyRoutes.signinScreenRoute: (context) => SignInScreen(),
+          MyRoutes.signupScreenRoute: (context) => SignUpScreen(),
+          MyRoutes.homeScreenRoute: (context) => HomeScreen(),
+        },
+      ),
     );
   }
 }
@@ -46,7 +60,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    Timer(Duration(seconds: 6), () {
+    Timer(Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) {

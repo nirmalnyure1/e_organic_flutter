@@ -1,8 +1,10 @@
 import 'package:eorganic/routes/my_routes.dart';
+import 'package:eorganic/services/auth_service.dart';
 import 'package:eorganic/widgets/my_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:provider/provider.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -44,7 +46,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, MyRoutes.signupScreenRoute);
+                    Navigator.pushReplacementNamed(context, MyRoutes.signupScreenRoute);
                   },
                   child: Text(
                     'Sign Up',
@@ -70,23 +72,28 @@ class SignInForm extends StatefulWidget {
 class _SignInFormState extends State<SignInForm> {
   bool? checkboxvalue = false;
   final formKey = GlobalKey<FormState>();
+  TextEditingController emailControler = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
-  void validate() {
+  bool? validate() {
     if (formKey.currentState!.validate()) {
-      // ignore: avoid_print
-      print('validate');
+      
+      return true;
+     // print('validate');
     } else {
+      return false;
       // ignore: avoid_print
-      print('invalidate');
+     // print('invalidate');
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthenticationService>(context);
     return Form(
         child: Form(
+      autovalidateMode: AutovalidateMode.always,
       key: formKey,
-      autovalidate: true,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -122,6 +129,7 @@ class _SignInFormState extends State<SignInForm> {
               //mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 textformField(
+                    controller: emailControler,
                     hint: 'enter you email',
                     lable: 'email',
                     obsecureText: false,
@@ -132,6 +140,7 @@ class _SignInFormState extends State<SignInForm> {
                     )),
                 const SizedBox(height: 20.0),
                 textformField(
+                  controller: passwordController,
                   hint: 'enter your password',
                   lable: 'password',
                   // err: 'pssword cannot be empty',
@@ -164,7 +173,31 @@ class _SignInFormState extends State<SignInForm> {
                     )
                   ],
                 ),
-                signin(),
+                Container(
+                  //padding: EdgeInsets.symmetric(horizontal: 10.0),
+                  width: 400,
+                  height: 60.0,
+                  decoration: BoxDecoration(
+                    color: Colors.green,
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  child: TextButton(
+                    onPressed: () {
+                      if (validate()!) {
+                        authService.signInWithEmailAndPassword(
+                            emailControler.text, passwordController.text);
+                        Navigator.pushNamed(context, MyRoutes.homeScreenRoute);
+                      }
+                    },
+                    child: const Text(
+                      'Sign In',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24.0,
+                          fontWeight: FontWeight.w300),
+                    ),
+                  ),
+                ),
                 const SizedBox(height: 20.0),
                 Text(
                   'or continue with',
@@ -204,9 +237,11 @@ class _SignInFormState extends State<SignInForm> {
     String? hint,
     Icon? icon,
     bool obsecureText = true,
+    TextEditingController? controller,
     //String err = 'error',
   }) {
     return TextFormField(
+      controller: controller,
       maxLines: 1,
       maxLength: 40,
       obscureText: obsecureText ? true : false,
@@ -235,28 +270,6 @@ class _SignInFormState extends State<SignInForm> {
         prefixIcon: icon,
       ),
       validator: obsecureText ? passwrodValidator() : emailValidator(),
-    );
-  }
-
-  Container signin() {
-    return Container(
-      //padding: EdgeInsets.symmetric(horizontal: 10.0),
-      width: 400,
-      height: 60.0,
-      decoration: BoxDecoration(
-        color: Colors.green,
-        borderRadius: BorderRadius.circular(20.0),
-      ),
-      child: TextButton(
-        onPressed: () {
-          validate();
-        },
-        child: const Text(
-          'Sign In',
-          style: TextStyle(
-              color: Colors.white, fontSize: 24.0, fontWeight: FontWeight.w300),
-        ),
-      ),
     );
   }
 
