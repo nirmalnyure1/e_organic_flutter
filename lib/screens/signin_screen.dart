@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -46,7 +47,8 @@ class _SignInScreenState extends State<SignInScreen> {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.pushReplacementNamed(context, MyRoutes.signupScreenRoute);
+                    Navigator.pushReplacementNamed(
+                        context, MyRoutes.signupScreenRoute);
                   },
                   child: Text(
                     'Sign Up',
@@ -77,13 +79,12 @@ class _SignInFormState extends State<SignInForm> {
 
   bool? validate() {
     if (formKey.currentState!.validate()) {
-      
       return true;
-     // print('validate');
+      // print('validate');
     } else {
       return false;
       // ignore: avoid_print
-     // print('invalidate');
+      // print('invalidate');
     }
   }
 
@@ -182,10 +183,12 @@ class _SignInFormState extends State<SignInForm> {
                     borderRadius: BorderRadius.circular(20.0),
                   ),
                   child: TextButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (validate()!) {
-                        authService.signInWithEmailAndPassword(
+                        await authService.signInWithEmailAndPassword(
                             emailControler.text, passwordController.text);
+                        final SharedPreferences sharedPreferences =
+                            await SharedPreferences.getInstance();
                         Navigator.pushNamed(context, MyRoutes.homeScreenRoute);
                       }
                     },
