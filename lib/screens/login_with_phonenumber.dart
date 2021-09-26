@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-class SetLocation extends StatelessWidget {
+class LoginWithPhoneNumber extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<UserAuthProvider>(context);

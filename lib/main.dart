@@ -5,8 +5,8 @@ import 'dart:async';
 import 'package:eorganic/provider/user_auth_provider.dart';
 import 'package:eorganic/routes/my_routes.dart';
 import 'package:eorganic/screens/home_screen.dart';
+import 'package:eorganic/screens/login_with_phonenumber.dart';
 import 'package:eorganic/screens/onboard_screen.dart';
-import 'package:eorganic/screens/set_location.dart';
 import 'package:eorganic/screens/sign_up_screen.dart';
 import 'package:eorganic/screens/signin_screen.dart';
 import 'package:eorganic/widgets/my_theme.dart';
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         //initialRoute: '/signin',
         routes: {
-          "/": (context) => SetLocation(),
+          "/": (context) => LoginWithPhoneNumber(),
           MyRoutes.splashScreenRoute: (context) => SplashScreen(),
           MyRoutes.onboardingScreenRoute: (context) => OnBoardScreen(),
           MyRoutes.signinScreenRoute: (context) => SignInScreen(),

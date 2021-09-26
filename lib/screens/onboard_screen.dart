@@ -1,5 +1,5 @@
-import 'package:eorganic/screens/set_location.dart';
 
+import 'package:eorganic/screens/login_with_phonenumber.dart';
 import 'package:eorganic/widgets/my_theme.dart';
 import 'package:eorganic/widgets/onboard_screen_widgets/details.dart';
 import 'package:flutter/material.dart';
@@ -115,7 +115,7 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
                 : Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) {
-                      return  SetLocation();
+                      return  LoginWithPhoneNumber();
                     }),
                   );
           });
