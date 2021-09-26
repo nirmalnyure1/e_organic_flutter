@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 class MyTheme {
   static ThemeData lightTheme(BuildContext context) => ThemeData(
+        primaryColor: Colors.green,
+        primarySwatch: Colors.green,
         appBarTheme: AppBarTheme(
           elevation: 0.0,
           color: Colors.white,
@@ -15,7 +17,7 @@ class MyTheme {
           iconTheme: IconThemeData(color: MyTheme.darkBluishColor),
           centerTitle: true,
         ),
-        primaryColor: Colors.green,
+
         fontFamily: GoogleFonts.lato().fontFamily,
         //fontFamily: GoogleFonts.poppins().fontFamily,
         primaryTextTheme: GoogleFonts.latoTextTheme(),
@@ -33,6 +35,7 @@ class MyTheme {
           elevation: 0.0,
         ),
       );
+
 //Colors
   static Color creamColor = Colors.grey.shade100;
   static Color dark = Colors.grey;
@@ -43,4 +46,5 @@ class MyTheme {
   static Color green = Colors.green;
   static Color textColor = Colors.black45;
   static Color textColorgrey = Colors.grey;
+  static Color whiteColor = Colors.white;
 }

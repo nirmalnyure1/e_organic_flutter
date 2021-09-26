@@ -1,36 +1,47 @@
+
+
 import 'package:eorganic/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 
 class AuthenticationService {
   final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
 
-  User? _userFromFirebase(auth.User? user) {
+  UserModel? _userFromFirebase(auth.User? user) {
     if (user == null) {
       return null;
     }
-    return User(
-      id: user.uid,
-      email: user.email,
-    );
+    // return UserModel(
+    //   id: user.uid,
+    //   email: user.email,
+    // );
   }
 
-  Stream<User?>? get user 
-    => _firebaseAuth.authStateChanges().map((_userFromFirebase));
-  
+  Stream<UserModel?>? get user =>
+      _firebaseAuth.authStateChanges().map((_userFromFirebase));
 
-
-  Future<User?> signInWithEmailAndPassword(
+  Future<UserModel?> signInWithEmailAndPassword(
       String email, String password) async {
-    final credential = await _firebaseAuth.signInWithEmailAndPassword(
-        email: email, password: password);
+    try {
+      final credential = await _firebaseAuth.signInWithEmailAndPassword(
+          email: email, password: password);
+      assert(credential.user != null);
+      // ignore: unnecessary_null_comparison
+      assert(await credential.user!.getIdToken() != null);
+    } catch (error) {
+      print(error);
+    }
   }
 
-  Future<User?> createUserWithEmailAndPassword(
+  Future<UserModel?> createUserWithEmailAndPassword(
       String email, String password) async {
-    final credential = await _firebaseAuth.createUserWithEmailAndPassword(
-        email: email, password: password);
+    try {
+      final credential = await _firebaseAuth.createUserWithEmailAndPassword(
+          email: email, password: password);
 
-    return _userFromFirebase(credential.user);
+      return _userFromFirebase(credential.user);
+    } catch (error) {
+      print(error);
+    }
   }
 
   Future<void> signOut() async {

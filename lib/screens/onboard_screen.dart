@@ -1,4 +1,5 @@
-import 'package:eorganic/screens/signin_screen.dart';
+import 'package:eorganic/screens/set_location.dart';
+
 import 'package:eorganic/widgets/my_theme.dart';
 import 'package:eorganic/widgets/onboard_screen_widgets/details.dart';
 import 'package:flutter/material.dart';
@@ -114,7 +115,7 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
                 : Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) {
-                      return const SignInScreen();
+                      return  SetLocation();
                     }),
                   );
           });
@@ -127,7 +128,4 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
       ),
     );
   }
-
-
-  
 }

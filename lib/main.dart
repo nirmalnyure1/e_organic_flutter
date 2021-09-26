@@ -2,14 +2,15 @@
 
 import 'dart:async';
 
+import 'package:eorganic/provider/user_auth_provider.dart';
 import 'package:eorganic/routes/my_routes.dart';
 import 'package:eorganic/screens/home_screen.dart';
 import 'package:eorganic/screens/onboard_screen.dart';
+import 'package:eorganic/screens/set_location.dart';
 import 'package:eorganic/screens/sign_up_screen.dart';
-import 'package:eorganic/screens/signin_cheker.dart';
 import 'package:eorganic/screens/signin_screen.dart';
-import 'package:eorganic/services/auth_service.dart';
 import 'package:eorganic/widgets/my_theme.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -28,17 +29,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider<AuthenticationService>(
-            create: (context) => AuthenticationService()),
+        ChangeNotifierProvider(create: (context) => UserAuthProvider())
       ],
-      child: MaterialApp(
+      child: MaterialApp( 
         //home: SplashScreen(),
         theme: MyTheme.lightTheme(context),
 
         debugShowCheckedModeBanner: false,
         //initialRoute: '/signin',
         routes: {
-           "/": (context) => SignInChecker(),
+          "/": (context) => SetLocation(),
           MyRoutes.splashScreenRoute: (context) => SplashScreen(),
           MyRoutes.onboardingScreenRoute: (context) => OnBoardScreen(),
           MyRoutes.signinScreenRoute: (context) => SignInScreen(),
@@ -61,12 +61,19 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     Timer(Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) {
-          return OnBoardScreen();
-        }),
-      );
+      FirebaseAuth.instance.authStateChanges().listen((User? user) {
+        if (user == null) {
+          Navigator.pushNamed(context, MyRoutes.splashScreenRoute);
+        } else {
+          Navigator.pushNamed(context, MyRoutes.homeScreenRoute);
+        }
+      });
+      // Navigator.pushReplacement(
+      //   context,
+      //   MaterialPageRoute(builder: (context) {
+      //     return OnBoardScreen();
+      //   }),
+      // );
     });
     super.initState();
   }

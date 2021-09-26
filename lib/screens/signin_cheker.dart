@@ -13,9 +13,9 @@ class SignInChecker extends StatelessWidget {
     final authenticationService = Provider.of<AuthenticationService>(context);
     return StreamBuilder(
       stream: authenticationService.user,
-      builder: (_, AsyncSnapshot<User?> snapshot) {
+      builder: (_, AsyncSnapshot<UserModel?> snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
-          final User? user = snapshot.data;
+          final UserModel? user = snapshot.data;
 
           return user == null ? SplashScreen() : HomeScreen();
         } else {
