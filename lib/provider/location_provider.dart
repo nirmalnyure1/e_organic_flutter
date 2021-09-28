@@ -33,7 +33,7 @@ class LocationProvider extends ChangeNotifier {
     final coordinates = Coordinates(this.latitude, this.longitude);
     final addresses =
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
-    selectedAddress = addresses.first;
+    this.selectedAddress = addresses.first;
     print('${selectedAddress.featureName}:${selectedAddress.addressLine}}');
   }
 }
