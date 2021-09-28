@@ -2,10 +2,12 @@
 
 import 'dart:async';
 
+import 'package:eorganic/provider/location_provider.dart';
 import 'package:eorganic/provider/user_auth_provider.dart';
 import 'package:eorganic/routes/my_routes.dart';
 import 'package:eorganic/screens/home_screen.dart';
 import 'package:eorganic/screens/login_with_phonenumber.dart';
+import 'package:eorganic/screens/map.dart';
 import 'package:eorganic/screens/onboard_screen.dart';
 import 'package:eorganic/screens/sign_up_screen.dart';
 import 'package:eorganic/screens/signin_screen.dart';
@@ -29,9 +31,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => UserAuthProvider())
+        ChangeNotifierProvider(create: (context) => UserAuthProvider()),
+        ChangeNotifierProvider(create: (context) => LocationProvider()),
       ],
-      child: MaterialApp( 
+      child: MaterialApp(
         //home: SplashScreen(),
         theme: MyTheme.lightTheme(context),
 
@@ -44,6 +47,7 @@ class MyApp extends StatelessWidget {
           MyRoutes.signinScreenRoute: (context) => SignInScreen(),
           MyRoutes.signupScreenRoute: (context) => SignUpScreen(),
           MyRoutes.homeScreenRoute: (context) => HomeScreen(),
+          MyRoutes.mapRoute: (context) => MapScreen(),
         },
       ),
     );

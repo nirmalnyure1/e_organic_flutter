@@ -1,3 +1,4 @@
+import 'package:eorganic/provider/user_auth_provider.dart';
 import 'package:eorganic/routes/my_routes.dart';
 import 'package:eorganic/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,6 +11,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final authService = Provider.of<AuthenticationService>(context);
+    final userAuth = Provider.of<UserAuthProvider>(context);
     return Scaffold(
       body: Center(
         child: Column(
@@ -18,11 +20,11 @@ class HomeScreen extends StatelessWidget {
             const Text("this is home"),
             TextButton(
                 onPressed: () {
-                FirebaseAuth.instance.signOut().then((value) {
+                  userAuth.error = "";
+                  FirebaseAuth.instance.signOut().then((value) {
                     Navigator.pushReplacementNamed(
-                      context, MyRoutes.signinScreenRoute);
-                });
-                
+                        context, MyRoutes.onboardingScreenRoute);
+                  });
                 },
                 child: const Text('signout'))
           ],

@@ -66,7 +66,7 @@ class UserAuthProvider extends ChangeNotifier {
             title: Column(
               // ignore: prefer_const_literals_to_create_immutables
               children: [
-                const Text('verifigation code'),
+                const Text('verification code'),
                 const Text('enter 6 digit OTP recired in you messsage'),
               ],
             ),
@@ -98,7 +98,9 @@ class UserAuthProvider extends ChangeNotifier {
                         Navigator.pushNamed(context, MyRoutes.homeScreenRoute);
                       }
                     } catch (error) {
-                      // this.error = 'invalid OTP';
+                      this.error = "Invalid OTP";
+                      notifyListeners();
+
                       Navigator.of(context).pop();
                       print(error.toString() + "error here");
                     }
