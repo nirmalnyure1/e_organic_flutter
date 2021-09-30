@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter_geocoder/geocoder.dart';
-
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class LocationProvider extends ChangeNotifier {
@@ -23,13 +22,13 @@ class LocationProvider extends ChangeNotifier {
     }
   }
 
-  void onCameraMove(CameraPosition cameraPosition) async {
+  void getCoordinatedsOnCameraMove(CameraPosition cameraPosition) async {
     this.latitude = cameraPosition.target.latitude;
     this.longitude = cameraPosition.target.longitude;
     notifyListeners();
   }
 
-  Future<void> getCameraMove() async {
+  Future<void> getAddressOnCameraMove() async {
     final coordinates = Coordinates(this.latitude, this.longitude);
     final addresses =
         await Geocoder.local.findAddressesFromCoordinates(coordinates);

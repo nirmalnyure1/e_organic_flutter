@@ -1,5 +1,4 @@
 import 'package:eorganic/provider/location_provider.dart';
-import 'package:eorganic/widgets/my_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
@@ -41,11 +40,11 @@ class _MapScreenState extends State<MapScreen> {
               mapType: MapType.normal,
               mapToolbarEnabled: true,
               onCameraMove: (CameraPosition position) {
-                userLocation.onCameraMove(position);
+                userLocation.getCoordinatedsOnCameraMove(position);
               },
               onMapCreated: onCreated,
               onCameraIdle: () {
-                userLocation.getCameraMove();
+                userLocation.getAddressOnCameraMove();
               },
             ),
             const Center(
