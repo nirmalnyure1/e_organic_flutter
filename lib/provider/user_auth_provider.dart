@@ -14,11 +14,13 @@ class UserAuthProvider extends ChangeNotifier {
   String? otp;
   String? verificationId;
   String? error;
+  bool onLoading = false;
   // var token;
   UserService userService = UserService();
   //var _otpcontroller = TextEditingController();
 
   Future<void> verifyPhone(BuildContext context, number) async {
+    notifyListeners();
     final PhoneVerificationCompleted verificationCompleted =
         (PhoneAuthCredential credential) async {
       // await _auth.signInWithCredential(credential);
@@ -35,6 +37,8 @@ class UserAuthProvider extends ChangeNotifier {
       this.verificationId = verificationId;
 
       otpDialogBox(context, number);
+      this.onLoading = false;
+      notifyListeners();
     };
 
     try {
@@ -46,7 +50,7 @@ class UserAuthProvider extends ChangeNotifier {
         codeAutoRetrievalTimeout: (String verificationId) async {
           this.verificationId = verificationId;
         },
-        timeout: const Duration(minutes: 1),
+        timeout: const Duration(seconds: 60),
       );
     } catch (error) {
       print(error);
@@ -105,7 +109,7 @@ class UserAuthProvider extends ChangeNotifier {
                       print(error.toString() + "error here");
                     }
                   },
-                  child: Text('done'))
+                  child: const Text('done'))
             ],
           );
         });

@@ -96,12 +96,3 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 }
-
-class Nirmal extends StatelessWidget {
-  const Nirmal({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}

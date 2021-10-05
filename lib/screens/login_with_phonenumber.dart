@@ -4,10 +4,11 @@ import 'package:eorganic/routes/my_routes.dart';
 import 'package:eorganic/widgets/my_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 
 class LoginWithPhoneNumber extends StatelessWidget {
+  const LoginWithPhoneNumber({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final userAuth = Provider.of<UserAuthProvider>(context);
@@ -15,6 +16,7 @@ class LoginWithPhoneNumber extends StatelessWidget {
 
     bool validPhoneNumber = false;
     var _numberController = TextEditingController();
+
     void logIn(context) {
       showModalBottomSheet(
           builder: (BuildContext context) {
@@ -42,7 +44,7 @@ class LoginWithPhoneNumber extends StatelessWidget {
                                       userAuth.error.toString(),
                                       style: TextStyle(color: MyTheme.green),
                                     ),
-                                    SizedBox(height: 4),
+                                    const SizedBox(height: 4),
                                   ],
                                 ),
                               ),
@@ -86,6 +88,9 @@ class LoginWithPhoneNumber extends StatelessWidget {
                               backgroundColor:
                                   MaterialStateProperty.all(MyTheme.green)),
                           onPressed: () {
+                            mystate(() {
+                              userAuth.onLoading = true;
+                            });
                             String number = "+977${_numberController.text}";
                             print('button pressed');
                             userAuth.verifyPhone(context, number).then((value) {
@@ -93,10 +98,19 @@ class LoginWithPhoneNumber extends StatelessWidget {
                             });
                             _numberController.clear();
                           },
-                          child: Text(
-                            validPhoneNumber ? 'Continue' : 'enter your number',
-                            style: TextStyle(color: MyTheme.whiteColor),
-                          ),
+                          child: userAuth.onLoading
+                              ? const Center(
+                                child: CircularProgressIndicator(
+                                    color: Colors.green,
+                                    backgroundColor: Colors.black,
+                                  ),
+                              )
+                              : Text(
+                                  validPhoneNumber
+                                      ? 'Continue'
+                                      : 'enter your number',
+                                  style: TextStyle(color: MyTheme.whiteColor),
+                                ),
                         ),
                       ),
                     ],
