@@ -6,6 +6,7 @@ import 'package:eorganic/provider/location_provider.dart';
 import 'package:eorganic/provider/user_auth_provider.dart';
 import 'package:eorganic/routes/my_routes.dart';
 import 'package:eorganic/screens/home_screen.dart';
+import 'package:eorganic/screens/login_screen.dart';
 import 'package:eorganic/screens/login_with_phonenumber.dart';
 import 'package:eorganic/screens/map.dart';
 import 'package:eorganic/screens/onboard_screen.dart';
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
           MyRoutes.signupScreenRoute: (context) => SignUpScreen(),
           MyRoutes.homeScreenRoute: (context) => HomeScreen(),
           MyRoutes.mapRoute: (context) => MapScreen(),
+          MyRoutes.mapRoute:(context)=>LoginScreen(),
         },
       ),
     );

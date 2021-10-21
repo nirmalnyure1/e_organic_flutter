@@ -6,9 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-class LoginWithPhoneNumber extends StatelessWidget {
+class LoginWithPhoneNumber extends StatefulWidget {
   const LoginWithPhoneNumber({Key? key}) : super(key: key);
 
+  @override
+  State<LoginWithPhoneNumber> createState() => _LoginWithPhoneNumberState();
+}
+
+class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
   @override
   Widget build(BuildContext context) {
     final userAuth = Provider.of<UserAuthProvider>(context);
@@ -93,24 +98,22 @@ class LoginWithPhoneNumber extends StatelessWidget {
                             });
                             String number = "+977${_numberController.text}";
                             print('button pressed');
-                            userAuth.verifyPhone(context, number).then((value) {
+                            // ignore: avoid_single_cascade_in_expression_statements
+                            userAuth
+                                .verifyPhone(
+                                    context: context,
+                                    number: number,
+                                    latitude: userLocation.latitude,
+                                    longitude: userLocation.longitude)
+                                .then((value) {
                               _numberController.clear();
                             });
                             _numberController.clear();
                           },
-                          child: userAuth.onLoading
-                              ? const Center(
-                                child: CircularProgressIndicator(
-                                    color: Colors.green,
-                                    backgroundColor: Colors.black,
-                                  ),
-                              )
-                              : Text(
-                                  validPhoneNumber
-                                      ? 'Continue'
-                                      : 'enter your number',
-                                  style: TextStyle(color: MyTheme.whiteColor),
-                                ),
+                          child: Text(
+                            validPhoneNumber ? 'Continue' : 'enter your number',
+                            style: TextStyle(color: MyTheme.whiteColor),
+                          ),
                         ),
                       ),
                     ],
@@ -141,7 +144,7 @@ class LoginWithPhoneNumber extends StatelessWidget {
                 ),
               ),
               Text(
-                "s",
+                "E-Organic",
                 style: TextStyle(
                     fontWeight: FontWeight.w300,
                     color: MyTheme.darkBluishColor,
@@ -170,20 +173,35 @@ class LoginWithPhoneNumber extends StatelessWidget {
                         ),
                         child: TextButton(
                           onPressed: () async {
+                            setState(() {
+                              userLocation.loding = true;
+                            });
                             await userLocation.getCurrentPostion();
                             print(userLocation.latitude);
                             print(userLocation.longitude);
                             if (userLocation.permission == true) {
                               Navigator.pushNamed(context, MyRoutes.mapRoute);
+                              setState(() {
+                                userLocation.loding = false;
+                              });
+                            } else {
+                              print('permission is not allowed');
+                              setState(() {
+                                userLocation.loding = false;
+                              });
                             }
                           },
-                          child: const Text(
-                            'Continue to set location',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 24.0,
-                                fontWeight: FontWeight.w300),
-                          ),
+                          child: userLocation.loding!
+                              ? CircularProgressIndicator(
+                                  color: Colors.white,
+                                )
+                              : const Text(
+                                  'Continue to set location',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 24.0,
+                                      fontWeight: FontWeight.w300),
+                                ),
                         ),
                       ),
                     ),

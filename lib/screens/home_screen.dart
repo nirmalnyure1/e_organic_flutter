@@ -19,14 +19,21 @@ class HomeScreen extends StatelessWidget {
           children: [
             const Text("this is home"),
             TextButton(
-                onPressed: () {
-                  userAuth.error = "";
-                  FirebaseAuth.instance.signOut().then((value) {
-                    Navigator.pushReplacementNamed(
-                        context, MyRoutes.onboardingScreenRoute);
-                  });
-                },
-                child: const Text('signout'))
+              onPressed: () {
+                userAuth.error = "";
+                FirebaseAuth.instance.signOut().then((value) {
+                  Navigator.pushReplacementNamed(
+                      context, MyRoutes.onboardingScreenRoute);
+                });
+              },
+              child: const Text('signout'),
+            ),
+            TextButton(
+              onPressed: () {
+               Navigator.pushNamed(context, MyRoutes.onboardingScreenRoute);
+              },
+              child: const Text('on board'),
+            )
           ],
         ),
       ),

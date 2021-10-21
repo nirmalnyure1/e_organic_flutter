@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print, prefer_function_declarations_over_variables, unused_local_variable
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eorganic/routes/my_routes.dart';
 import 'package:eorganic/services/user_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -19,7 +20,13 @@ class UserAuthProvider extends ChangeNotifier {
   UserService userService = UserService();
   //var _otpcontroller = TextEditingController();
 
-  Future<void> verifyPhone(BuildContext context, number) async {
+  Future<void> verifyPhone({
+    BuildContext? context,
+    number,
+    double? latitude,
+    double? longitude,
+    String? address,
+  }) async {
     notifyListeners();
     final PhoneVerificationCompleted verificationCompleted =
         (PhoneAuthCredential credential) async {
@@ -36,7 +43,7 @@ class UserAuthProvider extends ChangeNotifier {
         (String verificationId, [int? resendToken]) async {
       this.verificationId = verificationId;
 
-      otpDialogBox(context, number);
+      otpDialogBox(context!, number);
       this.onLoading = false;
       notifyListeners();
     };
@@ -56,11 +63,6 @@ class UserAuthProvider extends ChangeNotifier {
       print(error);
     }
   }
-
-  // void showSnakBar(BuildContext context, String text) {
-  //   final snakBar = SnackBar(content: Text(text));
-  //   ScaffoldMessenger.of(context).showSnackBar(snakBar);
-  // }
 
   Future<void> otpDialogBox(BuildContext context, String number) {
     return showDialog(
@@ -106,7 +108,7 @@ class UserAuthProvider extends ChangeNotifier {
                       notifyListeners();
 
                       Navigator.of(context).pop();
-                      print(error.toString() + "error here");
+                      print(error.toString() + " error here");
                     }
                   },
                   child: const Text('done'))
@@ -115,7 +117,31 @@ class UserAuthProvider extends ChangeNotifier {
         });
   }
 
-  void _createUser({String? id, String? number}) {
-    userService.createUser({"id": id, "number": number});
+  void _createUser(
+      {String? id,
+      String? number,
+      double? latitude,
+      double? longitude,
+      String? address}) {
+    userService.createUser({
+      "id": id,
+      "number": number,
+      // "location":GeoPoint(latitude!,longitude!),
+      'address': address,
+    });
+  }
+
+  void updateUser(
+      {String? id,
+      String? number,
+      double? latitude,
+      double? longitude,
+      String? address}) {
+    userService.updateUser({
+      "id": id,
+      "number": number,
+      "location": GeoPoint(latitude!, longitude!),
+      'address': address,
+    });
   }
 }

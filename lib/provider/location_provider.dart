@@ -7,15 +7,21 @@ class LocationProvider extends ChangeNotifier {
   double? latitude;
   double? longitude;
   bool? permission = false;
+  bool?   loding=false;
   var selectedAddress;
 
   Future<void> getCurrentPostion() async {
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.medium);
     if (position != null) {
-      this.permission = true;
-      this.latitude = position.latitude;
-      this.longitude = position.longitude;
+      permission = true;
+      latitude = position.latitude;
+      longitude = position.longitude;
+
+      final coordinates = Coordinates(latitude,longitude);
+      final addresses =
+          await Geocoder.local.findAddressesFromCoordinates(coordinates);
+      selectedAddress = addresses.first;
       notifyListeners();
     } else {
       print("permission is not allowed");
@@ -23,16 +29,16 @@ class LocationProvider extends ChangeNotifier {
   }
 
   void getCoordinatedsOnCameraMove(CameraPosition cameraPosition) async {
-    this.latitude = cameraPosition.target.latitude;
-    this.longitude = cameraPosition.target.longitude;
+    latitude = cameraPosition.target.latitude;
+    longitude = cameraPosition.target.longitude;
     notifyListeners();
   }
 
   Future<void> getAddressOnCameraMove() async {
-    final coordinates = Coordinates(this.latitude, this.longitude);
+    final coordinates = Coordinates(latitude,longitude);
     final addresses =
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
-    this.selectedAddress = addresses.first;
+    selectedAddress = addresses.first;
     print('${selectedAddress.featureName}:${selectedAddress.addressLine}}');
   }
 }

@@ -8,7 +8,7 @@ class UserService {
   //create new user
   Future<void> createUser(Map<String, dynamic> values) async {
     String id = values['id'];
-    await firebaseFirestore.collection(collection).doc(id).set(values);
+        await firebaseFirestore.collection(collection).doc(id).set(values);
   }
 
   Future<void> updateUser(Map<String, dynamic> values) async {

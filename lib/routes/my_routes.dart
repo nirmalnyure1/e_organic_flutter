@@ -10,4 +10,6 @@ class MyRoutes {
   static String homeScreenRoute = '/homescreen';
   static String signinCheckerRoute = '/signinCheker';
   static String mapRoute = '/map';
+    static String loginScreenRoute = '/loginScreen';
+
 }
