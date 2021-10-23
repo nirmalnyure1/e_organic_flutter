@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print, prefer_function_declarations_over_variables, unused_local_variable
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eorganic/provider/location_provider.dart';
 import 'package:eorganic/routes/my_routes.dart';
 import 'package:eorganic/services/user_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,6 +17,7 @@ class UserAuthProvider extends ChangeNotifier {
   String? verificationId;
   String? error;
   bool onLoading = false;
+  LocationProvider userLocation = LocationProvider();
   // var token;
   UserService userService = UserService();
   //var _otpcontroller = TextEditingController();
@@ -43,7 +45,12 @@ class UserAuthProvider extends ChangeNotifier {
         (String verificationId, [int? resendToken]) async {
       this.verificationId = verificationId;
 
-      otpDialogBox(context!, number);
+      otpDialogBox(
+          context: context,
+          number: number,
+          latitude: latitude,
+          longitude: longitude,
+          address: address);
       this.onLoading = false;
       notifyListeners();
     };
@@ -64,9 +71,15 @@ class UserAuthProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> otpDialogBox(BuildContext context, String number) {
+  Future<void> otpDialogBox({
+    BuildContext? context,
+    String? number,
+    double? latitude,
+    double? longitude,
+    String? address,
+  }) {
     return showDialog(
-        context: context,
+        context: context!,
         builder: (BuildContext context) {
           return AlertDialog(
             title: Column(
@@ -96,10 +109,25 @@ class UserAuthProvider extends ChangeNotifier {
                               verificationId: verificationId!, smsCode: otp!);
                       UserCredential userCredential =
                           await _auth.signInWithCredential(phoneAuthCredential);
-                      _createUser(
-                        number: userCredential.user!.phoneNumber,
-                        id: userCredential.user!.uid,
-                      );
+                      //it will update address
+                      if (userLocation.selectedAddress != null) {
+                        updateUser(
+                            id: userCredential.user!.uid,
+                            number: userCredential.user!.phoneNumber,
+                            latitude: userLocation.latitude,
+                            longitude: userLocation.longitude,
+                            address: userLocation.selectedAddress.addressLine);
+                      }
+                      //it will create user data in firestor after login
+                      else {
+                        _createUser(
+                          number: userCredential.user!.phoneNumber,
+                          id: userCredential.user!.uid,
+                          latitude: latitude,
+                          longitude: longitude,
+                          address: address,
+                        );
+                      }
                       if (userCredential != null) {
                         Navigator.pushNamed(context, MyRoutes.homeScreenRoute);
                       }
@@ -126,7 +154,8 @@ class UserAuthProvider extends ChangeNotifier {
     userService.createUser({
       "id": id,
       "number": number,
-      // "location":GeoPoint(latitude!,longitude!),
+      "latitude": latitude,
+      "longitude": longitude,
       'address': address,
     });
   }
@@ -140,8 +169,11 @@ class UserAuthProvider extends ChangeNotifier {
     userService.updateUser({
       "id": id,
       "number": number,
-      "location": GeoPoint(latitude!, longitude!),
+      "latitude": latitude,
+      "longitude": longitude,
       'address': address,
     });
+    this.onLoading=false;
+    notifyListeners();
   }
 }

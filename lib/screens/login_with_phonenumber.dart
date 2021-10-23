@@ -19,15 +19,17 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
     final userAuth = Provider.of<UserAuthProvider>(context);
     final userLocation = Provider.of<LocationProvider>(context, listen: false);
 
-    bool validPhoneNumber = false;
+    bool _validPhoneNumber = false;
     var _numberController = TextEditingController();
 
     void logIn(context) {
       showModalBottomSheet(
           builder: (BuildContext context) {
-            return StatefulBuilder(
+            return 
+            StatefulBuilder(
               builder: (context, StateSetter mystate) {
-                return Container(
+                return
+                 Container(
                   padding: const EdgeInsets.all(20.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -78,16 +80,16 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
                         onChanged: (value) {
                           if (value.length == 10) {
                             mystate(() {
-                              validPhoneNumber = true;
+                              _validPhoneNumber = true;
                             });
                           } else {
-                            validPhoneNumber = false;
+                            _validPhoneNumber = false;
                           }
                         },
                         keyboardType: TextInputType.phone,
                       ),
                       AbsorbPointer(
-                        absorbing: validPhoneNumber ? false : true,
+                        absorbing: _validPhoneNumber ? false : true,
                         child: TextButton(
                           style: ButtonStyle(
                               backgroundColor:
@@ -101,17 +103,19 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
                             // ignore: avoid_single_cascade_in_expression_statements
                             userAuth
                                 .verifyPhone(
-                                    context: context,
-                                    number: number,
-                                    latitude: userLocation.latitude,
-                                    longitude: userLocation.longitude)
+                              context: context,
+                              number: number,
+                              latitude: null,
+                              longitude: null,
+                              address: null,
+                            )
                                 .then((value) {
                               _numberController.clear();
                             });
                             _numberController.clear();
                           },
                           child: Text(
-                            validPhoneNumber ? 'Continue' : 'enter your number',
+                            _validPhoneNumber ? 'Continue' : 'enter your number',
                             style: TextStyle(color: MyTheme.whiteColor),
                           ),
                         ),
@@ -192,7 +196,7 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
                             }
                           },
                           child: userLocation.loding!
-                              ? CircularProgressIndicator(
+                              ? const CircularProgressIndicator(
                                   color: Colors.white,
                                 )
                               : const Text(

@@ -1,13 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eorganic/provider/location_provider.dart';
 import 'package:eorganic/provider/user_auth_provider.dart';
 import 'package:eorganic/routes/my_routes.dart';
 import 'package:eorganic/widgets/my_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
@@ -20,7 +20,7 @@ class _MapScreenState extends State<MapScreen> {
   LatLng? currentLocation;
   GoogleMapController? _mapController;
   bool? locating = false;
-  bool? logedIn = false;
+  bool? _logedIn = false;
   User? user;
 
   @override
@@ -30,11 +30,13 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   void getCurrentUser() async {
-    User? user = FirebaseAuth.instance.currentUser;
+    setState(() {
+      user = FirebaseAuth.instance.currentUser;
+    });
+
     if (user != null) {
       setState(() {
-        logedIn = true;
-        user = FirebaseAuth.instance.currentUser;
+        _logedIn = true;
       });
     }
   }
@@ -99,7 +101,7 @@ class _MapScreenState extends State<MapScreen> {
                         onPrimary: Colors.white, // foreground
                       ),
                       onPressed: () {
-                        if (logedIn == false) {
+                        if (_logedIn == false) {
                           Navigator.pushNamed(
                               context, MyRoutes.loginScreenRoute);
                         } else {
@@ -110,6 +112,8 @@ class _MapScreenState extends State<MapScreen> {
                             longitude: userLocation.longitude,
                             address: userLocation.selectedAddress.addressLine,
                           );
+                          Navigator.pushNamed(
+                              context, MyRoutes.homeScreenRoute);
                         }
                       },
                       child: const Text(
@@ -154,6 +158,11 @@ class _MapScreenState extends State<MapScreen> {
                 color: Colors.red.shade800,
               ),
             ),
+            Center(
+                child: SpinKitPulse(
+              color: Colors.red.shade500,
+              size: 80.0,
+            ))
           ],
         ),
       ),
