@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
         theme: MyTheme.lightTheme(context),
 
         debugShowCheckedModeBanner: false,
-        //initialRoute: '/signin',
+        initialRoute: '/splashscreen',
         routes: {
           "/": (context) => LoginWithPhoneNumber(),
           MyRoutes.splashScreenRoute: (context) => SplashScreen(),
@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
           // MyRoutes.signupScreenRoute: (context) => SignUpScreen(),
           MyRoutes.homeScreenRoute: (context) => HomeScreen(),
           MyRoutes.mapRoute: (context) => MapScreen(),
-          MyRoutes.loginScreenRoute:(context)=>LoginScreen(),
+          MyRoutes.loginScreenRoute: (context) => LoginScreen(),
         },
       ),
     );
@@ -66,10 +66,10 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    Timer(Duration(seconds: 3), () {
+    Timer(Duration(seconds: 5), () {
       FirebaseAuth.instance.authStateChanges().listen((User? user) {
         if (user == null) {
-          Navigator.pushNamed(context, MyRoutes.splashScreenRoute);
+          Navigator.pushNamed(context, MyRoutes.onboardingScreenRoute);
         } else {
           Navigator.pushNamed(context, MyRoutes.homeScreenRoute);
         }
