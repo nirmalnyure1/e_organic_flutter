@@ -101,19 +101,28 @@ class _MapScreenState extends State<MapScreen> {
                         onPrimary: Colors.white, // foreground
                       ),
                       onPressed: () {
+                        //  userAuth.screen="MapScreen";
                         if (_logedIn == false) {
                           Navigator.pushNamed(
                               context, MyRoutes.loginScreenRoute);
                         } else {
-                          userAuth.updateUser(
+                          setState(() {
+                            userAuth.latitude = userLocation.latitude;
+                            userAuth.longitude = userLocation.longitude;
+                            userAuth.address =
+                                userLocation.selectedAddress.addressLine;
+                          });
+                          userAuth
+                              .updateUser(
                             id: user!.uid,
                             number: user!.phoneNumber,
-                            latitude: userLocation.latitude,
-                            longitude: userLocation.longitude,
-                            address: userLocation.selectedAddress.addressLine,
-                          );
-                          Navigator.pushNamed(
-                              context, MyRoutes.homeScreenRoute);
+                          )
+                              .then((value) {
+                            if (value == true) {
+                              Navigator.pushNamed(
+                                  context, MyRoutes.homeScreenRoute);
+                            }
+                          });
                         }
                       },
                       child: const Text(

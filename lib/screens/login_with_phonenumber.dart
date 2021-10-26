@@ -1,7 +1,9 @@
 import 'package:eorganic/provider/location_provider.dart';
 import 'package:eorganic/provider/user_auth_provider.dart';
 import 'package:eorganic/routes/my_routes.dart';
+import 'package:eorganic/services/user_service.dart';
 import 'package:eorganic/widgets/my_theme.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -21,15 +23,14 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
 
     bool _validPhoneNumber = false;
     var _numberController = TextEditingController();
+     UserService userService = UserService();
 
     void logIn(context) {
       showModalBottomSheet(
           builder: (BuildContext context) {
-            return 
-            StatefulBuilder(
+            return StatefulBuilder(
               builder: (context, StateSetter mystate) {
-                return
-                 Container(
+                return Container(
                   padding: const EdgeInsets.all(20.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -95,6 +96,13 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
                               backgroundColor:
                                   MaterialStateProperty.all(MyTheme.green)),
                           onPressed: () {
+                        //     userService
+                        //   .getUserById(userCredential.user!.uid)
+                        //   .then((snapShot) {
+                        // if (snapShot.exists) {
+                        
+                          
+                        // }
                             mystate(() {
                               userAuth.onLoading = true;
                             });
@@ -105,9 +113,6 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
                                 .verifyPhone(
                               context: context,
                               number: number,
-                              latitude: null,
-                              longitude: null,
-                              address: null,
                             )
                                 .then((value) {
                               _numberController.clear();
@@ -115,7 +120,9 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
                             _numberController.clear();
                           },
                           child: Text(
-                            _validPhoneNumber ? 'Continue' : 'enter your number',
+                            _validPhoneNumber
+                                ? 'Continue'
+                                : 'enter your number',
                             style: TextStyle(color: MyTheme.whiteColor),
                           ),
                         ),
@@ -179,7 +186,12 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
                           onPressed: () async {
                             setState(() {
                               userLocation.loding = true;
+                             userAuth.screen = "MapScreen";
+
+                          
+
                             });
+
                             await userLocation.getCurrentPostion();
                             print(userLocation.latitude);
                             print(userLocation.longitude);
@@ -192,6 +204,8 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
                               print('permission is not allowed');
                               setState(() {
                                 userLocation.loding = false;
+                              
+
                               });
                             }
                           },
@@ -211,6 +225,9 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
                     ),
                     TextButton(
                       onPressed: () {
+                        setState(() {
+                          userAuth.screen = 'LoginScreen';
+                        });
                         logIn(context);
                       },
                       child: RichText(

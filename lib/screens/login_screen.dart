@@ -91,19 +91,24 @@ class _LoginScreenState extends State<LoginScreen> {
                               MaterialStateProperty.all(MyTheme.green)),
                       onPressed: () {
                         mystate(() {
-                          userAuth.onLoading = true;
+                        //  userAuth.onLoading = true;
+                         userAuth.screen="MapScreen";
+                         userAuth.latitude=userLocation.latitude;
+                         userAuth.longitude=userLocation.longitude;
+                         userAuth.address=userLocation.selectedAddress.addressLine;
+                         
                         });
                         String number = "+977${_numberController.text}";
                         print('button pressed');
                         // ignore: avoid_single_cascade_in_expression_statements
                         userAuth
                             .verifyPhone(
-                                context: context,
-                                number: number,
-                                latitude: userLocation.latitude,
-                                longitude: userLocation.longitude,
-                                address:
-                                    userLocation.selectedAddress.addressLine)
+                          context: context,
+                          number: number,
+                            // latitude: userLocation.latitude,
+                            // longitude: userLocation.longitude,
+                            // address: userLocation.selectedAddress.addressLine,
+                        )
                             .then((value) {
                           _numberController.clear();
                         });
