@@ -10,8 +10,6 @@ import 'package:eorganic/screens/login_screen.dart';
 import 'package:eorganic/screens/login_with_phonenumber.dart';
 import 'package:eorganic/screens/map.dart';
 import 'package:eorganic/screens/onboard_screen.dart';
-import 'package:eorganic/screens/sign_up_screen.dart';
-import 'package:eorganic/screens/signin_screen.dart';
 import 'package:eorganic/widgets/my_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';

@@ -3,7 +3,6 @@ import 'package:eorganic/provider/user_auth_provider.dart';
 import 'package:eorganic/routes/my_routes.dart';
 import 'package:eorganic/services/user_service.dart';
 import 'package:eorganic/widgets/my_theme.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +22,7 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
 
     bool _validPhoneNumber = false;
     var _numberController = TextEditingController();
-     UserService userService = UserService();
+    UserService userService = UserService();
 
     void logIn(context) {
       showModalBottomSheet(
@@ -96,13 +95,13 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
                               backgroundColor:
                                   MaterialStateProperty.all(MyTheme.green)),
                           onPressed: () {
-                        //     userService
-                        //   .getUserById(userCredential.user!.uid)
-                        //   .then((snapShot) {
-                        // if (snapShot.exists) {
-                        
-                          
-                        // }
+                         
+                            //     userService
+                            //   .getUserById(userCredential.user!.uid)
+                            //   .then((snapShot) {
+                            // if (snapShot.exists) {
+
+                            // }
                             mystate(() {
                               userAuth.onLoading = true;
                             });
@@ -184,11 +183,10 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
                         ),
                         child: TextButton(
                           onPressed: () async {
+                          
                             setState(() {
                               userLocation.loding = true;
                              userAuth.screen = "MapScreen";
-
-                          
 
                             });
 
@@ -204,7 +202,6 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
                               print('permission is not allowed');
                               setState(() {
                                 userLocation.loding = false;
-                              
 
                               });
                             }
@@ -250,4 +247,6 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
       ),
     );
   }
+
+ 
 }

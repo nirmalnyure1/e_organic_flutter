@@ -1,6 +1,5 @@
 import 'package:eorganic/provider/user_auth_provider.dart';
 import 'package:eorganic/routes/my_routes.dart';
-import 'package:eorganic/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -30,7 +29,7 @@ class HomeScreen extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-               Navigator.pushNamed(context, MyRoutes.onboardingScreenRoute);
+                Navigator.pushNamed(context, MyRoutes.onboardingScreenRoute);
               },
               child: const Text('on board'),
             )
