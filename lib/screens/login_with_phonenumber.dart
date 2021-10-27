@@ -95,7 +95,6 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
                               backgroundColor:
                                   MaterialStateProperty.all(MyTheme.green)),
                           onPressed: () {
-                         
                             //     userService
                             //   .getUserById(userCredential.user!.uid)
                             //   .then((snapShot) {
@@ -183,11 +182,9 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
                         ),
                         child: TextButton(
                           onPressed: () async {
-                          
                             setState(() {
                               userLocation.loding = true;
-                             userAuth.screen = "MapScreen";
-
+                              userAuth.screen = "MapScreen";
                             });
 
                             await userLocation.getCurrentPostion();
@@ -202,7 +199,6 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
                               print('permission is not allowed');
                               setState(() {
                                 userLocation.loding = false;
-
                               });
                             }
                           },
@@ -247,6 +243,4 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
       ),
     );
   }
-
- 
 }
