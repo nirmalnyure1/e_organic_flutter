@@ -1,7 +1,7 @@
+import 'package:eorganic/firebase/user_crud.dart';
 import 'package:eorganic/provider/location_provider.dart';
 import 'package:eorganic/provider/user_auth_provider.dart';
 import 'package:eorganic/routes/my_routes.dart';
-import 'package:eorganic/services/user_service.dart';
 import 'package:eorganic/widgets/my_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

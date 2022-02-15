@@ -1,9 +1,9 @@
 // ignore_for_file: avoid_print, prefer_function_declarations_over_variables, unused_local_variable
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eorganic/firebase/user_crud.dart';
 import 'package:eorganic/provider/location_provider.dart';
 import 'package:eorganic/routes/my_routes.dart';
-import 'package:eorganic/services/user_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -19,9 +19,9 @@ class UserAuthProvider extends ChangeNotifier {
   bool onLoading = false;
   LocationProvider userLocation = LocationProvider();
   String? screen;
- double? latitude;
-    double? longitude;
-    String? address;
+  double? latitude;
+  double? longitude;
+  String? address;
 
   // var token;
   UserService userService = UserService();
@@ -127,7 +127,8 @@ class UserAuthProvider extends ChangeNotifier {
                         if (snapShot.exists) {
                           //user is exist
                           if (screen == 'LoginScreen') {
-                            Navigator.pushReplacementNamed(context, MyRoutes.homeScreenRoute);
+                            Navigator.pushReplacementNamed(
+                                context, MyRoutes.homeScreenRoute);
                           } else {
                             //mapScreen
                             updateUser(
@@ -135,7 +136,8 @@ class UserAuthProvider extends ChangeNotifier {
                               number: userCredential.user!.phoneNumber,
                             );
                             //need to update new selected address
-                            Navigator.pushNamed(context, MyRoutes.homeScreenRoute);
+                            Navigator.pushNamed(
+                                context, MyRoutes.homeScreenRoute);
                           }
                         } else {
                           //user is not exist
@@ -203,30 +205,27 @@ class UserAuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> updateUser ({
+  Future<bool> updateUser({
     String? id,
     String? number,
     // double? latitude,
     // double? longitude,
     // String? address,
-  })async {
-
-    try{
-       userService.updateUser({
-      "id": id,
-      "number": number,
-      "latitude": latitude,
-      "longitude": longitude,
-      'address': address,
-    });
-    this.onLoading = false;
-    notifyListeners();
-    return true;
+  }) async {
+    try {
+      userService.updateUser({
+        "id": id,
+        "number": number,
+        "latitude": latitude,
+        "longitude": longitude,
+        'address': address,
+      });
+      this.onLoading = false;
+      notifyListeners();
+      return true;
+    } catch (e) {
+      print('error here $e');
+      return false;
     }
-    catch(e){
-print('error here $e');
-return false;
-    }
-   
   }
 }
